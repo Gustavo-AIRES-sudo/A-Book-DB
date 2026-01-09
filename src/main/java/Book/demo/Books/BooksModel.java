@@ -22,11 +22,17 @@ public class BooksModel {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "bookURL", unique = true)
+    @Column(name = "book_url", unique = true)
     private String book_url;
 
+    @Column(name = "synopsis", unique = true)
+    private String synopsis;
+
+    @Column(name = "author", unique = true)
+    private String author;
+
     @ManyToOne
-    @JoinColumn(name = "foreignkeyUserId")
+    @JoinColumn(name = "foreignkey_user_id")
     private UserModel userModel;
 
 }

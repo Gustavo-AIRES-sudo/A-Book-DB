@@ -1,0 +1,2 @@
+ALTER TABLE tb_books
+ADD COLUMN author VARCHAR(255) UNIQUE;

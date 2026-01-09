@@ -1,0 +1,2 @@
+ALTER TABLE tb_books
+ADD COLUMN synopsis VARCHAR(255) UNIQUE;

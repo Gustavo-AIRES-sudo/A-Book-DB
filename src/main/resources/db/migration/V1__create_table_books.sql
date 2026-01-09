@@ -1,0 +1,13 @@
+CREATE TABLE tb_books (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255),
+    book_url VARCHAR(255) UNIQUE,
+    foreignkey_user_id BIGINT
+);
+
+CREATE TABLE tb_user (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255),
+    age INT,
+    gmail VARCHAR(255) UNIQUE
+);
