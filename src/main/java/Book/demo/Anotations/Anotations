@@ -145,9 +145,13 @@
     }
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     -- Comandos Git --
+    
     git branch:
         'Gerencia as Branchs do projeto principal';
 
     git checkout:
-        'Gerencia a linha do tempo(Branch) que você se encontra'
-        'Para criar uma Branch nova, deve escrever "git checkout -b (nome da branch)". '
+        'Gerencia a linha do tempo(Branch) que você se encontra';
+        'Para criar uma Branch nova, deve escrever "git checkout -b (nome da branch)". ';
+
+    git merge (nome da branch):
+        'Faz com que todos os dados da Branch vá para outra Branch. Se eu seleciono a Branch "master", a Branch que eu estou alocado atualmente irá recolher os dados da Branch que eu passei o nome".';
