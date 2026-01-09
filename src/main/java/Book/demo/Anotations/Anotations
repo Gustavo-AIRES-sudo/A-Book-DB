@@ -1,0 +1,153 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+É importante destacar as anotações do Mapping:
+    @RestController: Demonstra que a classe será uma rota para a API;
+    @RequestMapping: A sua principal função é ligar a requisição HTTP do usuário com o código java. Também é possível passar o nome da requisição HTTP. EX: @RequestMapping(responsabilities).
+    @GetMapping é responsável por obter dados da aplicação. É anexada na URL;
+    @PostMapping é responsável por invocar uma método específico quando uma requisição POST(cliente envia, cria ou modifica informações e, geralmente, armazenar) for feita. É anexada no "body" da requisição HTTP;
+    @PutMapping é responsável por alterar informações;
+    @PatchMapping também é responsável por alterar informações;
+    @DeleteMapping é responsável por deletar a informação;
+
+    //TODO: Criar as informações do usuário: nome, sobrenome, idade e trabalho.
+    //TO COMMIT SOMETHING: git commit -m "Rename"
+    //TO SEE THE COMMITS IN THE PAST: git log --oneline
+    //TO UPDATE ANY COMMIT, UPDATING SOME THINGS THAT YOU DON'T REALIZED: git commit --amend
+    //TO FORCE THE PUSH: git push --force
+
+    @Entity: Advinda da JPA, ela transforma toda a classe em uma entidade. Mapeia a classe em uma table;
+    @Table: Alocação das variáveis em uma tabela;
+
+    @Id: Demonstra ao provedor de persistência a necessidade desse valor ter uma forma única, que no caso, é a variável "ID".
+    Isso é necessário para a referenciação de cada linha da tabela. Sem a anotação "@Id" não será possível manipular os dados do banco de dados
+
+    @GeneratedValue: Gera um sequência de valores para o ID, que serve para a manipulação de dados do usuário;
+
+    @ManyToOne: Usuário tem uma única resposanbilidade: muitos (nome da classe) terão uma responsabilidade.
+
+    @OneToMany: Uma responsabilidade poderá ser aplicada à vários usuários.
+
+    @JoinColumn: Cria uma Foreing Key / Chave Estrangeira. Essa foreing key tem função de conectar duas tabelas ou mais, de modo que essa foreing key seja direcionada à chave primeira, que geralmente é o ID.
+
+    @Column (unique = true): Transforma a coluna de determinada tabela única, ou seja, essa coluna não poderá haver repetições de elementos;
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    "A JPA exige um contrato básico para que uma classe seja considerada uma Entidade Persistente válida:
+     -> Deve ser anotada com @Entity.
+     ->Deve ter um campo que represente a chave primária, anotado com @Id.
+
+     Se o seu objeto Java não tiver um campo marcado com @Id, o framework não sabe como mapear o objeto para uma linha específica no banco de dados.
+
+     Como o framework saberia qual linha buscar? Ele precisa do ID.
+     Como o framework saberia qual linha atualizar? Ele precisa do ID.
+     Como o framework saberia qual valor usar como chave estrangeira em outros relacionamentos? Ele precisa do ID.
+
+     O Que Acontece sem o @Id?
+        ->Erro de configuração de run time no início da aplicação"
+
+        OTHER VISION
+
+     JpaRepository: abstrador >> Simplifica ações a aplicação, especificamente no Repository, o qual armazenará informações no database. É necessário informar qual classe o ORM escaneará ativamente e o tipo do ID da classe, veja:
+     JpaRepository<(nome da classe), (tipo do ID)> -> JpaRepository<UserModel, Long>
+     ORM(Object Relational Mapping): verifica toda a classe que está sendo passada no JpaRepository na aplicação e cria uma tabela parecida com a a entidade(Entity). O ORM basicamente mapeia a classe e traduz para o banco de dados(conecta a POO com o banco de dados), armazenando os dados de forma que o database entenda, uma vez que tal tecnologia tenha uma linguagem de interpretação própria.
+     ...Por exemplo, para um banco de dados, o meu long ID seria uma (PK)(primary key), o String userFullName e String userGmail seria um (VARCHAR(255))->(255 caractéres), o userAge seria um (INT) e responsabilities_id como FK(Foreing Key).
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    Lombok: Biblioteca java abstradora, ou seja, facilita certas tarefas como: criar Getters, Setters, Construtores, entre outros:
+        @NoArgsConstructor(Lombok): Cria um construtor vazio(no-args-constructor --sem argumento--) parâmetros da aplicação;
+        @AllArgsConstructor(Lombok): Cria todos os construtores com parâmetros(all-args-constructor) para a aplicação;
+        @Data(Lombok): Cria Getters e Setters das variáveis;
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    -- INFORMAÇÕES IMPORTANTES --
+        É DE SUMA IMPORTÂNCIA QUE A ANOTAÇÃO @OneToMany(MappedBy = "responsabilties") ESTEJA IGUAL A VARIÁVEL EM QUE SE DESEJA APLICAR A RELAÇÃO ENTRE VARIÁVEIS.
+        ISTO É: SE DESEJO ESTABELECER UMA RELAÇÃO EM QUE UMA RESPOSABILIDADE PODERÁ SER APLICADA À VARIOS USUÁRIOS, ENTÃO O CAMPO DE DECLARAÇÃO APÓS "MAPPEDBY" DEVE SER IGUAL À VERIÁVEL QUE ESTAMOS ESTABELCENDO CONEXÃO COM O USUÁRIO(USER).
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    -- BANCO DE DADOS(H2) --
+
+    JDBC - JAVA DATABASE CONNECTIVITY -- DEFINE COMO O CÓDIGO JAVA DEVE SE COMUNICAR COM QUALQUER BANCO DE DADOS.
+    O JDBC FAZ QUATRO OPERAÇÕES BÁSICAS: C(CREATE) R(READ) U(UPDATE) D(DELETE)
+
+    spring.h2.console.enabled=true -->ATIVA O BANCO DE DADOS
+    spring.h2.console.path=/h2-console -->DEFINE O NOME LOCAL PARA ACESSAR O BANCO DE DADOS (localhost:(portal)/h2-console(você define o nome)
+    spring.datasource.url=jdbc:h2:mem:userdb -->FAZ TRÊS COISAS: 1- DEFINE QUE É UM BANCO H2: "jdbc:h2:..." 2- DEFINE QUE ELE RODA NA MEMÓRIA: ""...:mem:..." 3- DEFINE O NOME DO BANCO DE DADOS: "...:userdb"
+        --> jdbc:h2:file:./data/userdb (armazena na file, memória persistente);
+
+    spring.datasource.driverClassName=org.h2.Driver ->DEFINE A CLASSE DRIVER, OU SEJA, A QUE TRADUZ OS COMANDOS DO JAVA PARA A SQL DO H2
+    spring.datasource.username=sa
+    spring.datasource.password=
+    DB_CLOSE_ON_EXIT = (FALSE ou TRUE) //Essa anotação é usada quando queremos informar às configurações se queremos que o banco de dados seja excluído ao pararmos a aplicação, ou seja, sairmos do banco ded dados
+        DB_CLOSE_DELAY = -1 //Essa configuração serve para manter o banco de dados ativo mesmo quando ninguém estiver presente nele.
+            --A PRINCIPAL DIFERENÇA ENTRE AMBOS É O CONTEXTO QUE ESTÁ INSERIDO. ENQUANTO ESTE IMPEDE QUE O DB SEJA ENCERRADO APÓS O FECHAMENTO DA ÚLTIMA CONEXÃO JDBC, AQUELE IMPEDE QUE O BANCO DE DADOS SEJA FECHADO APÓS O ENCERRAMENTO DA APLICAÇÃO JVM.
+            --É IMPORTANTE QUE ESSAS CONFIGURAÇÕES ESTEJAM ALOCADAS APÓS O URL DA DB, UMA VEZ QUE ESSAS CONFIG. ESTÃO ATRELADAS À ELA. PODEMOS AFIRMAR QUE SÃO PARÂMETROS DA CONFIGURAÇÃO.
+            --close;
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    -- BANCO DE DADOS(JPA --HIBERNATE-- / CMDS) --
+    JPA: TRANSFORMA AS QUERY'S DO DB EM MÉTODOS, AS QUAIS SÃO USADADS NO CÓDIGO. (ex de query: SELECT * TB_USER_RESPONSABILITIES)
+        COMANDOS QUE COMANDAM COMO O HIBERNATE DEVE INTERARGIR COM O BANCO DE DADOS(H2) E O QUE ELE MOSTRA NO CONSOLE;
+        spring.jpa.hibernate.ddl-auto = update --> HIBERNATE VERIFICA SE HOUVE ALGUMA MUDANÇA ENTRE A(S) CLASSE(S) @ENTITY E AS TABELAS EXISTENTES NO DB. CASO HAJA NOVAS ENTIDADES OU MUDANÇAS NO CAMPO DAS TABELAS, O PRÓPRIO HIBERNATE SERÁ RESPONSÁVEL POR ATUALZIAR AS TABELAS.
+            --É IMPORTANTE CITAR QUE O VALOR AGREGADO AO COMANDO PODERIA VARIAR DE "update". OS VALORES PODEM SER ENTRE: "create", "create-drop" e "none";
+            --close;
+        spring.jpa.show-sql = true --> ESSE COMANDO É UMA FERRAMENTE DE DEBUG E TRANSPARÊNCIA. AO INTRODUZIR ESSA FERRAMENTE COMO TRUE, OU SEJA, ATIVADA, QUALQUER ALTERAÇÃO FEITA PELO HIBERNATE NO BANCO DE DADOS SERÁ IMPRIMIDA NO CONSOLE.
+            --É UMA FERRAMENTA MUITO IMPORTANTE PARA CONSULTAR A DB, ANALISANDO SEU COMPORTAMENTO;
+            --close;
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    -- COMANDOS SQL --
+        INSERT INTO TB_USER_RESPONSABILITY (id, difficulty, name_of_responsability):
+            Coloque na tabela "TB_USER_RESPONSABILITY" (parâmetros);
+        VALUES (1, 'Easy', 'backup your data'):
+            Os valores (valores que serão passados para o parâmetro);
+        ALTER TABLE TB_USER_REGISTER(Nome da tabela):
+            Comando para alterar algum elemento de uma tabela qualquer;
+            --"ADD COLUMN user_ranking(passa o nome da tabela) VARCHAR(50)(passa o tipo da variável com sintaxe de banco de dados)":
+                Serve para adicionar uma coluna na tabela;
+        #Mensagem: JAMAIS ALTERAR O BANCO DE DADOS DIRETO NO PROGRAMA QUANDO O DATABASE ESTIVER EM FUNCIONAMENTO. ALTERAR DIRETAMENTE EM SQL.#
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    -- FLYWAY IMPORT APPLICATION.PROPERTIES -- (importante: uma migrations é imutável. Para fazer uma alteração, deve-se criar outra migration, pois a anterior é imutável)
+
+        spring.flyway.enable=true:
+            Ativa o flyway, o qual será responsável pelo gerenciamento de versões no banco de dados de forma automática e controlada. Controla alterações no esquema do banco de dados. (adicionar tabelas, colunas);
+            close;
+        spring.flyway.locations=classpath:(caminho das versões do db):
+            Informa para o flyway em que pasta estará alocada as informações das versões do esquema do banco de dados. ex: classpath:db/migrations;
+            Nessa pasta você passará a versão da atualização esquemática do db (V2, V3, V4...) o nome da caluna, por exemplo, (position), e a tabela que essa coluna será adicionada (tb_user_register). Juntando tudo: V2__Add_position_tb_user_register.sql(.sql --> linguagem sql -> db);
+            close;
+        spring.flyway.baseline-on-migrate=true:
+            Verifica se a migrations(alteração) que você fez anteriormente também está na versão mais atualizada da migration. Caso essa migration já tenha sido feita, o flyway não executa nenhum comando sql da migration repetida;
+            close;
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    -- JSON (JavaScript Object Notation --
+        Os dados presentes no banco de dados serão serializados (O ato de serializar diz respeito à função de transformar um tipo de dado em outro.) em um tipo de dado chamado de JSON. Esse tipo de dado serve para armazenar e transportar dados de forma estruturada e legível. A princípio, ele é um mecanismo de linguagem universal entre as tecnologias de programação, de modo que os dados sejam transformados em dados no formato JSON e, esses mesmos dados, se tornem legíveis para todos.
+        @JsonIgnore: Impede o loop infinito (basicamente). -> Previne erro de serialização.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    -- CAMADAS DE CONTROLLER, MODEL, REPOSITORY E SERVICE --
+        Injeção de dependência:
+            A injeção de dependência, no DB, é feita entre a camada de Serviço e a camada de Repository, a qual terá a função de manipular e ler os dados do DB, seja por linguagem SQL ou por ORM. Agora, a camada de Service se aproveita de modo que ela use as funções da camada de Repository para aplicar a lógica de serviço.
+            É importante usar a anotação "@Service" na camada de serviço da aplicaçã para fazer o springboot reconhecer a camada de serviço e validar a injeção de dependência.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    -- Page e Pageable --
+        A estrutura de dados Page é um método mais eficiente ao trabalhar com um banco de dados, pois ele resolve o problema de listar os usuários, que é listá-los todos de uma vez. O page, por sua vez, traz os usuários em camadas, ou seja, em "Páginas".
+        Pageable é um conceito do Spring para manipular a estrutura de dados Page.
+
+        @GetMapping
+        public ResponseEntity<Page<UserModel>> buscarPaginado(
+                // O Spring injeta automaticamente o objeto Pageable
+                // a partir dos parâmetros da URL (ex: ?page=0&size=10&sort=name,asc)
+                @PageableDefault(size = 10, sort = "nome", direction = Sort.Direction.ASC) Pageable pageable
+        ) --> ASC(ASCENDING), DESC(DESCENDING);
+
+@DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id){
+        if (!booksService.idVerify(id)){
+            return ResponseEntity.notFound().build();
+        }
+
+        booksService.deleteTitle(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    -- Comandos Git --
+    git branch:
+        'Gerencia as Branchs do projeto principal';
+
+    git checkout:
+        'Gerencia a linha do tempo(Branch) que você se encontra'
+        'Para criar uma Branch nova, deve escrever "git checkout -b (nome da branch)". '
