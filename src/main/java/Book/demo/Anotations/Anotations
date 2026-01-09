@@ -148,4 +148,6 @@
     git branch:
         'Gerencia as Branchs do projeto principal';
 
-    git checkout -b
+    git checkout:
+        'Gerencia a linha do tempo(Branch) que você se encontra'
+        'Para criar uma Branch nova, deve escrever "git checkout -b (nome da branch)". '
