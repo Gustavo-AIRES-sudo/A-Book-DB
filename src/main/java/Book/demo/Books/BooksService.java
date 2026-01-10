@@ -17,9 +17,11 @@ public class BooksService {
 
     @Autowired
     private final BooksRepository booksRepository;
+    private final BooksMapper booksMapper;
 
-    public BooksService(BooksRepository booksRepository) {
+    public BooksService(BooksRepository booksRepository, BooksMapper booksMapper) {
         this.booksRepository = booksRepository;
+        this.booksMapper = booksMapper;
     }
 
     public List<BooksModel> titles(){
@@ -35,9 +37,10 @@ public class BooksService {
         return booksRepository.existsById(id);
     }
 
-    public BooksModel addTitle(BooksModel booksModel){
-        booksModel.setId(null);
-        return booksRepository.save(booksModel);
+    public BooksDTO addTitle(BooksDTO booksDTO){
+        BooksModel books = booksMapper.toModel(booksDTO);
+        books = booksRepository.save(books);
+        return booksMapper.toDTO(books);
     }
 
     public void deleteTitle(Long id){

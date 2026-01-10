@@ -1,5 +1,6 @@
 package Book.demo.Books;
 
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,11 @@ public class BooksController {
 
     @Autowired
     private final BooksService booksService;
+    private final BooksMapper booksMapper;
 
-    public BooksController(BooksService booksService) {
+    public BooksController(BooksService booksService, BooksMapper booksMapper) {
         this.booksService = booksService;
+        this.booksMapper = booksMapper;
     }
 
     @GetMapping("/welcome")
@@ -29,15 +32,15 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BooksModel> showById (@PathVariable Long id){
+    public ResponseEntity<@NonNull BooksModel> showById (@PathVariable Long id){
         BooksModel booksModel = booksService.findTitleById(id);
         return ResponseEntity.ok(booksModel);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<BooksModel> addBook (@RequestBody BooksModel booksModel){
-        BooksModel newBook = booksService.addTitle(booksModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newBook);
+    public ResponseEntity<@NonNull BooksDTO> addBook (@RequestBody BooksDTO booksDTO){//DTO DE ENTRADA
+        BooksDTO newBook = booksService.addTitle(booksDTO);//CRIA DTO DE SAÍDA EM UMA NOVA VARIÁVEL
+        return ResponseEntity.ok(newBook);//RETORNA A SAÍDA DO DTO
     }
 
     @DeleteMapping("/delete/{id}")
@@ -52,7 +55,7 @@ public class BooksController {
     }
 
     @PutMapping("/alter/{id}")
-    public ResponseEntity<BooksModel> alterBook (@PathVariable Long id, @RequestBody BooksModel booksModel){
+    public ResponseEntity<@NonNull BooksModel> alterBook (@PathVariable Long id, @RequestBody BooksModel booksModel){
         booksService.alterTitle(booksModel, id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
