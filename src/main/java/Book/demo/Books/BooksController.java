@@ -58,7 +58,7 @@ public class BooksController {
 
     @PutMapping("/alter/{id}")
     public ResponseEntity<@NonNull BooksDTO> alterBook (@PathVariable Long id, @RequestBody BooksDTO booksdto){
-        booksService.alterTitle(id, booksdto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        BooksDTO savedBook = booksService.alterBook(id, booksdto);
+        return ResponseEntity.status(HttpStatus.OK).body(savedBook);//envia o body ao usuário
     }
 }
