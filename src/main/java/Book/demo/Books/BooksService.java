@@ -9,52 +9,51 @@ import org.springframework.web.server.ResponseStatusException;
 import org.yaml.snakeyaml.events.Event;
 
 import javax.imageio.plugins.tiff.ExifInteroperabilityTagSet;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class BooksService {
 
     @Autowired
     private final BooksRepository booksRepository;
+    private final BooksMapper booksMapper;
 
-    public BooksService(BooksRepository booksRepository) {
+    public BooksService(BooksRepository booksRepository, BooksMapper booksMapper) {
         this.booksRepository = booksRepository;
+        this.booksMapper = booksMapper;
     }
 
-    public List<BooksModel> titles(){
-        return booksRepository.findAll();
+    public List<BooksDTO> titles(){
+        List<BooksModel> allBooks = booksRepository.findAll();
+        return allBooks.stream()
+                .map(booksMapper::map)
+                .collect(Collectors.toList());
     }
 
-    public BooksModel findTitleById(Long id){
-        return booksRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Page not founded."));
+    public BooksDTO findTitleById(Long id){
+        Optional<BooksModel> book = booksRepository.findById(id);
+        return book.map(booksMapper::map)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     public boolean idVerify(Long id){
         return booksRepository.existsById(id);
     }
 
-    public BooksModel addTitle(BooksModel booksModel){
-        booksModel.setId(null);
-        return booksRepository.save(booksModel);
+    public BooksDTO addTitle(BooksDTO booksDTO){
+        BooksModel books = booksMapper.map(booksDTO);
+        books = booksRepository.save(books);
+        return booksMapper.map(books);
     }
 
     public void deleteTitle(Long id){
         booksRepository.deleteById(id);
     }
-
-   public BooksModel alterTitle(BooksModel booksModel, Long id){
-        BooksModel existingTitle = booksRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id not found"));
-
-        existingTitle.setId(id);
-        existingTitle.setTitle(booksModel.getTitle());
-        existingTitle.setBook_url(booksModel.getBook_url());
-
-        booksRepository.save(existingTitle);
-        return existingTitle;
-   }
 
     public BooksModel alterTitle(Long id, BooksModel booksModel){
         BooksModel existingTitle = booksRepository.findById(id)
@@ -68,6 +67,21 @@ public class BooksService {
         booksRepository.save(existingTitle);
         return existingTitle;
 
+    }
+
+    public BooksDTO alterTitle(Long id, BooksDTO booksDTO){
+        Optional<BooksModel> book = booksRepository.findById(id);
+
+        if (book.isPresent()){
+            BooksModel bookToUpdate = book.get();
+
+            booksMapper.updateBookFromDTO(booksDTO, bookToUpdate);
+
+            BooksModel newBook = booksRepository.save(bookToUpdate);
+            return booksMapper.map(newBook);
+        }
+
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "id of book not found");
     }
 
 
