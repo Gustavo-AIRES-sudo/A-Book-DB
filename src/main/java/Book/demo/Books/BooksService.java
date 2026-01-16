@@ -55,21 +55,7 @@ public class BooksService {
         booksRepository.deleteById(id);
     }
 
-    public BooksModel alterTitle(Long id, BooksModel booksModel){
-        BooksModel existingTitle = booksRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found."));
-
-        existingTitle.setId(id);
-        existingTitle.setTitle(booksModel.getTitle());
-        existingTitle.setBook_url(booksModel.getBook_url());
-        existingTitle.setUserModel(booksModel.getUserModel());
-
-        booksRepository.save(existingTitle);
-        return existingTitle;
-
-    }
-
-    public BooksDTO alterTitle(Long id, BooksDTO booksDTO){
+    public BooksDTO alterBook(Long id, BooksDTO booksDTO){
         Optional<BooksModel> book = booksRepository.findById(id);
 
         if (book.isPresent()){
