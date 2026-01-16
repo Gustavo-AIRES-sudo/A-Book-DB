@@ -1,35 +1,19 @@
 package Book.demo.Books;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Component
-public class BooksMapper {
 
-    public BooksModel toModel(BooksDTO booksDTO){
-        BooksModel booksModel = new BooksModel();
+//TODO: ESTUDAR O QUE FOI IMPLEMENTADO NA CAMADA DO MAPPER.
+@Mapper(componentModel = "spring")
+public interface BooksMapper {
 
-        booksModel.setId(booksDTO.getId());
-        booksModel.setBook_url(booksDTO.getBook_url());
-        booksModel.setTitle(booksDTO.getTitle());
-        booksModel.setAuthor(booksDTO.getAuthor());
-        booksModel.setSynopsis(booksDTO.getSynopsis());
-        booksModel.setUserModel(booksDTO.getUserModel());
 
-        return booksModel;
+    BooksDTO map(BooksModel booksModel);
+    BooksModel map(BooksDTO booksDTO);
 
-    }
-
-    public BooksDTO toDTO(BooksModel booksModel){
-        BooksDTO booksDTO = new BooksDTO();
-
-        booksDTO.setAuthor(booksModel.getAuthor());
-        booksDTO.setSynopsis(booksModel.getSynopsis());
-        booksDTO.setBook_url(booksModel.getBook_url());
-        booksDTO.setId(booksModel.getId());
-        booksDTO.setTitle(booksModel.getTitle());
-        booksDTO.setUserModel(booksModel.getUserModel());
-
-        return booksDTO;
-    }
-
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateBookFromDTO(BooksDTO dto, @MappingTarget BooksModel entity);
 }
