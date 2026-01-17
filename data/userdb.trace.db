@@ -1,0 +1,12 @@
+2026-01-09 14:07:34.953638-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "ALTER TABLE tb_user [*](ID, USERNAME, AGE, GMAIL)\000d\000aVALUES (12, 'Gustavo', 17, 'airescarvalhog@gmail.com')"; expected "., ADD, SET, RENAME, DROP, ALTER"; SQL statement:
+ALTER TABLE tb_user (ID, USERNAME, AGE, GMAIL)
+VALUES (12, 'Gustavo', 17, 'airescarvalhog@gmail.com') [42001-240]
+2026-01-09 14:08:36.092937-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "ALTER TABLE tb_user [*](id, user_name, user_age, user_gmail)\000d\000aVALUES (12, 'Gustavo', 17, 'airescarvalhog@gmail.com')"; expected "., ADD, SET, RENAME, DROP, ALTER"; SQL statement:
+ALTER TABLE tb_user (id, user_name, user_age, user_gmail)
+VALUES (12, 'Gustavo', 17, 'airescarvalhog@gmail.com') [42001-240]
+2026-01-09 14:09:02.645519-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "ALTER TABLE tb_user [*](id, username, age, gmail)\000d\000aVALUES (12, 'Gustavo', 17, 'airescarvalhog@gmail.com')"; expected "., ADD, SET, RENAME, DROP, ALTER"; SQL statement:
+ALTER TABLE tb_user (id, username, age, gmail)
+VALUES (12, 'Gustavo', 17, 'airescarvalhog@gmail.com') [42001-240]
