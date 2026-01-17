@@ -1,5 +1,6 @@
 package Book.demo.Books;
 
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,19 +30,19 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BooksModel> showById (@PathVariable Long id){
+    public ResponseEntity<@NonNull BooksModel> showById (@PathVariable Long id){
         BooksModel booksModel = booksService.findTitleById(id);
         return ResponseEntity.ok(booksModel);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<BooksModel> addBook (@RequestBody BooksModel booksModel){
+    public ResponseEntity<@NonNull BooksModel> addBook (@RequestBody BooksModel booksModel){
         BooksModel newBook = booksService.addTitle(booksModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(newBook);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteBook (@PathVariable Long id){
+    public ResponseEntity<@NonNull Void> deleteBook (@PathVariable Long id){
         if (!booksService.idVerify(id)){
             return ResponseEntity.notFound().build();
         }
@@ -52,7 +53,7 @@ public class BooksController {
     }
 
     @PutMapping("/alter/{id}")
-    public ResponseEntity<BooksModel> alterBook (@PathVariable Long id, @RequestBody BooksModel booksModel){
+    public ResponseEntity<@NonNull BooksModel> alterTitle(@PathVariable Long id, @RequestBody BooksModel booksModel){
         booksService.alterTitle(booksModel, id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
