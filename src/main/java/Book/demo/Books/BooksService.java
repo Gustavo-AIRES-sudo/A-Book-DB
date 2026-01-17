@@ -1,6 +1,7 @@
 package Book.demo.Books;
 
 import Book.demo.User.UserModel;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -59,15 +60,13 @@ public class BooksService {
         Optional<BooksModel> book = booksRepository.findById(id);
 
         if (book.isPresent()){
-            BooksModel bookToUpdate = book.get();
 
-            booksMapper.updateBookFromDTO(booksDTO, bookToUpdate);
-
-            BooksModel newBook = booksRepository.save(bookToUpdate);
+            BooksModel updatingBook = book.get();
+            booksMapper.updateBookFromDTO(booksDTO, updatingBook);
+            BooksModel newBook = booksRepository.save(updatingBook);
             return booksMapper.map(newBook);
         }
-
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "id of book not found");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found in DATABASE");
     }
 
 
