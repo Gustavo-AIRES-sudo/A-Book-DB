@@ -1,6 +1,7 @@
 package Book.demo.Books;
 
 import Book.demo.User.UserModel;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +34,7 @@ public class BooksModel {
 
     @ManyToOne
     @JoinColumn(name = "foreignkey_user_id")
+    @JsonBackReference
     private UserModel userModel;
 
 }

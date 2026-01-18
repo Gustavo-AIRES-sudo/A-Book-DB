@@ -1,17 +1,11 @@
 package Book.demo.Books;
 
-import Book.demo.User.UserModel;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import org.yaml.snakeyaml.events.Event;
-
-import javax.imageio.plugins.tiff.ExifInteroperabilityTagSet;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,14 +55,14 @@ public class BooksService {
     public BooksDTO alterBook(Long id, BooksDTO booksDTO){
         Optional<BooksModel> book = booksRepository.findById(id);
 
-        if (book.isPresent()){
-
-            BooksModel updatingBook = book.get();
-            booksMapper.updateBookFromDTO(booksDTO, updatingBook);
-            BooksModel newBook = booksRepository.save(updatingBook);
-            return booksMapper.map(newBook);
+        if (book.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found in DATABASE");
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found in DATABASE");
+
+        BooksModel updatingBook = book.get();
+        booksMapper.updateBookFromDTO(booksDTO, updatingBook);
+        BooksModel newBook = booksRepository.save(updatingBook);
+        return booksMapper.map(newBook);
     }
 
 

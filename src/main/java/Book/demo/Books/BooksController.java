@@ -43,7 +43,7 @@ public class BooksController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addBook (@RequestBody BooksDTO booksDTO){//DTO DE ENTRADA
+    public ResponseEntity<?> addBook (@RequestBody BooksDTO booksDTO){//DTO DE ENTRADA
         BooksDTO newBook = booksService.addTitle(booksDTO);//CRIA DTO DE SAÍDA EM UMA NOVA VARIÁVEL
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("New book added. Infos: " + newBook);//RETORNA A SAÍDA DO DTO

@@ -1,16 +1,18 @@
 package Book.demo.User;
 
 import Book.demo.Books.BooksModel;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.List;
 
 @Entity
 @Table(name = "tb_user")
+@DynamicUpdate
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -31,6 +33,6 @@ public class UserModel {
     private String user_gmail;
 
     @OneToMany(mappedBy = "userModel")
-    @JsonIgnore
+    @JsonManagedReference
     private List<BooksModel> booksModels;
 }
