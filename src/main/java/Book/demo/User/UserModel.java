@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,15 +25,15 @@ public class UserModel {
     private Long id;
 
     @Column (name = "username")
-    private String user_name;
+    private String userName;
 
     @Column (name = "age")
-    private Integer user_age;
+    private Integer userAge;
 
     @Column (name = "gmail", unique = true)
-    private String user_gmail;
+    private String userGmail;
 
     @OneToMany(mappedBy = "userModel")
     @JsonManagedReference
-    private List<BooksModel> booksModels;
+    private List<BooksModel> booksModels = new ArrayList<>();
 }

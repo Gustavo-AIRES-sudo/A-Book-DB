@@ -14,11 +14,11 @@ import java.util.List;
 public class UserDTO {
     private Long id;
 
-    private String user_name;
+    private String userName;
 
-    private Integer user_age;
+    private Integer userAge;
 
-    private String user_gmail;
+    private String userGmail;
 
     private List<BooksModel> booksModels;
 }

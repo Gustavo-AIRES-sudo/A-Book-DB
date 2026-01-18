@@ -12,3 +12,7 @@ ALTER TABLE tb_user (id, username, age, gmail)
 VALUES (12, 'Gustavo', 17, 'airescarvalhog@gmail.com') [42001-240]
 2026-01-17 21:24:47.773209-03:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2026-01-18 14:29:02.157444-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2026-01-18 14:49:09.615361-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]

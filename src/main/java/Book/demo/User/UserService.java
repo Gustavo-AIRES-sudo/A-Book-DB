@@ -1,5 +1,6 @@
 package Book.demo.User;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ public class UserService {
 
     @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
     private final UserMapper userMapper;
 
     public UserService(UserRepository userRepository, UserMapper userMapper) {
