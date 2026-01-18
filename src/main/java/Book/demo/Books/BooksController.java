@@ -29,19 +29,22 @@ public class BooksController {
     @GetMapping("/titles")
     public ResponseEntity<@NonNull List<BooksDTO>> showAllTitles (){
         List<BooksDTO> findAll = booksService.titles();
-        return ResponseEntity.ok(findAll);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .body(findAll);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<@NonNull BooksDTO> showById (@PathVariable Long id){
         BooksDTO dtoBook = booksService.findTitleById(id);
-        return ResponseEntity.ok(dtoBook);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .body(dtoBook);
     }
 
     @PostMapping("/add")
     public ResponseEntity<@NonNull BooksDTO> addBook (@RequestBody BooksDTO booksDTO){//DTO DE ENTRADA
         BooksDTO newBook = booksService.addTitle(booksDTO);//CRIA DTO DE SAÍDA EM UMA NOVA VARIÁVEL
-        return ResponseEntity.ok(newBook);//RETORNA A SAÍDA DO DTO
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(newBook);//RETORNA A SAÍDA DO DTO
     }
 
     @DeleteMapping("/delete/{id}")
@@ -52,12 +55,14 @@ public class BooksController {
 
         booksService.deleteTitle(id);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
     @PutMapping("/alter/{id}")
     public ResponseEntity<@NonNull BooksDTO> alterBook (@PathVariable Long id, @RequestBody BooksDTO booksdto){
         BooksDTO savedBook = booksService.alterBook(id, booksdto);
-        return ResponseEntity.status(HttpStatus.OK).body(savedBook);//envia o body ao usuário
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(savedBook);//envia o body ao usuário
     }
 }
