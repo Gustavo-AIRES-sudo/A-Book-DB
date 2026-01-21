@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Table of Users</title>
+    <style>
+        /* --- Variáveis de Cores (Paleta Rústica) --- */
+        :root {
+            --paper-bg: #f9f7f2;       /* Cor de papel creme */
+            --ink-text: #2c2420;       /* Preto/Marrom muito escuro para texto */
+            --wood-primary: #5d4037;   /* Marrom madeira para cabeçalhos */
+            --leather-accent: #8d6e63; /* Marrom claro para detalhes */
+            --highlight-row: #efebe9;  /* Bege muito claro para linhas alternadas */
+            --alert-color: #a13d2d;    /* Vermelho tijolo para ações destrutivas */
+            --link-color: #556b2f;     /* Verde oliva escuro para links */
+            --border-color: #d7ccc8;   /* Bege escuro para bordas */
+        }
+
+        /* --- Configurações Gerais --- */
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif; /* Fontes serifadas combinam com livros */
+            background-color: var(--paper-bg);
+            color: var(--ink-text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--wood-primary);
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+            display: inline-block;
+            padding-bottom: 10px;
+            /* Centralizar o bloco do título */
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* --- Estilização da Tabela --- */
+        table {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto; /* Centraliza a tabela */
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra suave para profundidade */
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            overflow: hidden; /* Para respeitar as bordas arredondadas */
+        }
+
+        /* Cabeçalho da Tabela */
+        thead {
+            background-color: var(--wood-primary);
+            color: #ffffff;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: normal;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            border: none;
+        }
+
+        /* Corpo da Tabela */
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top; /* Alinha o conteúdo ao topo (útil para a lista de livros) */
+        }
+
+        /* Efeito Zebra (Linhas alternadas) */
+        tbody tr:nth-child(even) {
+            background-color: var(--highlight-row);
+        }
+
+        /* Efeito Hover na linha */
+        tbody tr:hover {
+            background-color: #e0d8cf;
+            transition: background-color 0.3s ease;
+        }
+
+        /* --- Coluna de Livros (Lista) --- */
+        td ul {
+            margin: 0;
+            padding-left: 20px;
+            list-style-type: square; /* Marcador quadrado combina com o tema */
+        }
+
+        td ul li {
+            margin-bottom: 4px;
+            color: var(--wood-primary);
+            font-style: italic;
+        }
+
+        td span {
+            color: #999;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        /* --- Coluna de Ações (Links) --- */
+        td:last-child {
+            white-space: nowrap; /* Evita que os botões quebrem linha estranhamente */
+        }
+
+        td a {
+            display: inline-block;
+            margin-right: 10px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        /* Estilos específicos para os botões */
+        /* Detalhes e Alterar */
+        td a:nth-child(1),
+        td a:nth-child(2) {
+            color: var(--leather-accent);
+        }
+
+        td a:nth-child(1):hover,
+        td a:nth-child(2):hover {
+            color: var(--wood-primary);
+            text-decoration: underline;
+        }
+
+        /* Botão Deletar */
+        td a:last-child {
+            color: var(--alert-color);
+            margin-right: 0;
+        }
+
+        td a:last-child:hover {
+            background-color: var(--alert-color);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        /* Responsividade básica */
+        @media (max-width: 768px) {
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>List of Users</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Age</th>
+        <th>Gmail</th>
+        <th>Books</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="u : ${users}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.userName}"></td>
+        <td th:text="${u.userAge}"></td>
+        <td th:text="${u.userGmail}"></td>
+
+        <td>
+            <ul th:if="${not #lists.isEmpty(u.booksModels)}">
+
+                <li th:each="book : ${u.booksModels}" th:text="${book.title}"></li>
+            </ul>
+
+            <span th:if="${#lists.isEmpty(u.booksModels)}">Book not found</span>
+        </td>
+
+        <td>
+            <a th:href="@{/users/ui/find/{id}(id=${u.id})}">User info</a>
+            <a th:href="@{/users/ui/alter/{id}(id=${u.id})}">Alter user</a>
+            <a th:href="@{/users/ui/delete/{id}(id=${u.id})}">Delete user</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

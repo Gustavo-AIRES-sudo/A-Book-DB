@@ -15,7 +15,7 @@ public class BooksDTO {
 
     private String title;
 
-    private String book_url;
+    private String bookUrl;
 
     private String synopsis;
 

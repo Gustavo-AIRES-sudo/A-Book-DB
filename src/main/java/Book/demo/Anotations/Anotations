@@ -58,7 +58,7 @@
     -- INFORMAÇÕES IMPORTANTES --
         É DE SUMA IMPORTÂNCIA QUE A ANOTAÇÃO @OneToMany(MappedBy = "responsabilties") ESTEJA IGUAL A VARIÁVEL EM QUE SE DESEJA APLICAR A RELAÇÃO ENTRE VARIÁVEIS.
         ISTO É: SE DESEJO ESTABELECER UMA RELAÇÃO EM QUE UMA RESPOSABILIDADE PODERÁ SER APLICADA À VARIOS USUÁRIOS, ENTÃO O CAMPO DE DECLARAÇÃO APÓS "MAPPEDBY" DEVE SER IGUAL À VERIÁVEL QUE ESTAMOS ESTABELCENDO CONEXÃO COM O USUÁRIO(USER).
-
+        ROTA SWAGGER: http://localhost:9090/swagger-ui/index.html#/
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     -- BANCO DE DADOS(H2) --
 

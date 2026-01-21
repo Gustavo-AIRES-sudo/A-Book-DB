@@ -26,7 +26,7 @@ public class BooksModel {
     private String title;
 
     @Column(name = "book_url", unique = true)
-    private String book_url;
+    private String bookUrl;
 
     @Column(name = "synopsis", unique = true)
     private String synopsis;
